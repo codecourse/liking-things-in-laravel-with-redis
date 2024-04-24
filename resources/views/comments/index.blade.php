@@ -4,8 +4,9 @@
     @foreach($comments as $comment)
         <div>
             <p>{{ $comment->body }}</p>
-            <form action="">
-                <button>Like</button>
+            <form action="{{ route('comments.likes.store', $comment) }}" method="post">
+                @csrf
+                <button>Like ({{ $comment->getLikeCount() }})</button>
             </form>
         </div>
     @endforeach

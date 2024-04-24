@@ -12,3 +12,9 @@ Route::get('/', function () {
         'comments' => Comment::latest()->get(),
     ]);
 });
+
+Route::post('/comments/{comment}/likes', function (Comment $comment) {
+    $comment->addLike(auth()->user());
+
+    return back();
+})->name('comments.likes.store');
