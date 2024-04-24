@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Redis;
@@ -9,29 +10,5 @@ use Illuminate\Support\Facades\Redis;
 class Comment extends Model
 {
     use HasFactory;
-
-    public function addLike(User $user)
-    {
-        Redis::sadd($this->getLikesKey(), $user->id);
-    }
-
-    public function removeLike(User $user)
-    {
-        Redis::srem($this->getLikesKey(), $user->id);
-    }
-
-    public function likedBy(User $user)
-    {
-        return Redis::sismember($this->getLikesKey(), $user->id);
-    }
-
-    public function getLikeCount()
-    {
-        return Redis::scard($this->getLikesKey());
-    }
-
-    protected function getLikesKey()
-    {
-        return 'comments.' . $this->id . '.likes';
-    }
+    use Likeable;
 }
