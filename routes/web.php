@@ -18,3 +18,9 @@ Route::post('/comments/{comment}/likes', function (Comment $comment) {
 
     return back();
 })->name('comments.likes.store');
+
+Route::delete('/comments/{comment}/likes', function (Comment $comment) {
+    $comment->removeLike(auth()->user());
+
+    return back();
+})->name('comments.likes.destroy');

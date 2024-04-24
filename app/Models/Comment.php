@@ -15,6 +15,11 @@ class Comment extends Model
         Redis::sadd($this->getLikesKey(), $user->id);
     }
 
+    public function removeLike(User $user)
+    {
+        Redis::srem($this->getLikesKey(), $user->id);
+    }
+
     public function likedBy(User $user)
     {
         return Redis::sismember($this->getLikesKey(), $user->id);
