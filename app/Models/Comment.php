@@ -12,11 +12,21 @@ class Comment extends Model
 
     public function addLike(User $user)
     {
-        Redis::sadd('comments.' . $this->id . '.likes', $user->id);
+        Redis::sadd($this->getLikesKey(), $user->id);
+    }
+
+    public function likedBy(User $user)
+    {
+        return Redis::sismember($this->getLikesKey(), $user->id);
     }
 
     public function getLikeCount()
     {
-        return Redis::scard('comments.' . $this->id . '.likes');
+        return Redis::scard($this->getLikesKey());
+    }
+
+    protected function getLikesKey()
+    {
+        return 'comments.' . $this->id . '.likes';
     }
 }

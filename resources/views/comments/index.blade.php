@@ -7,6 +7,9 @@
             <form action="{{ route('comments.likes.store', $comment) }}" method="post">
                 @csrf
                 <button>Like ({{ $comment->getLikeCount() }})</button>
+                @if($comment->likedBy(auth()->user()))
+                    (You liked this)
+                @endif
             </form>
         </div>
     @endforeach
